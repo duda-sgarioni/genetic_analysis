@@ -170,7 +170,7 @@ rs627_ABraOM <- run_ABraOM(zkv_data, "rs1143627", "A", "G", 0.5734, 0.4266)
 
 
 #___ Linkage Desequilibrium Analysis ___#
-## Genetic R package (calculates p-val)
+## Genetic R package
 zkv_gt_snps <- zkv_genotypes %>%
   dplyr::select(-Sample)
 
@@ -183,7 +183,7 @@ zkv_gt_genetics <- zkv_gt_snps %>%
 ld_genetics <- LD(zkv_gt_genetics)
 print(ld_genetics)
 
-## snpStats R package (does not calculates p-val)
+## snpStats R package
 zkv_gt_snstat <-  zkv_gt_snps %>%
   mutate(
     rs1143627 = case_when(
