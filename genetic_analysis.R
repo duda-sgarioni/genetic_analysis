@@ -116,8 +116,6 @@ haplo_cc_results <- haplo.cc(
 print(haplo_cc_results)
 
 ## Additional test
-em <- haplo.em(genoH, locus.label = snpsH)
-
 contingency_table <- haplo.em(genoH, locus.label = snpsH) %>% 
   summary() %>% 
   as.data.frame() %>% 
