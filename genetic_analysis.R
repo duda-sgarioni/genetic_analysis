@@ -169,6 +169,42 @@ rs944_ABraOM <- run_ABraOM(zkv_data, "rs16944", "A", "G", 0.4108, 0.5892)
 rs627_ABraOM <- run_ABraOM(zkv_data, "rs1143627", "A", "G", 0.5734, 0.4266)
 
 
+#___ Compare frequencies to DNABR Database ___# 
+
+#' Compare Allele Frequencies with DNABR Database
+#'
+#' Compares observed allele frequencies in cases and controls with expected frequencies from the DNABR database using chi-square test for given probabilities.
+#'
+#' @param dataset A data frame containing SNP genotype.
+#' @param snp The name of the SNP column (e.g., "rs4848306").
+#' @param allele1 The first allele (e.g., "G").
+#' @param allele2 The second allele (e.g., "A").
+#' @param freq_db_allele1 Expected frequency of the first allele from DNABR.
+#' @param freq_db_allele2 Expected frequency of the second allele from DNABR.
+#'
+#' @return Prints allele counts for cases and controls, and chi-square test results.
+#' @export
+run_DNABr <- function(dataset, snp, allele1, allele2, freq_db_allele1, freq_db_allele2) {
+  allele1_case <- sum(str_count(dataset[dataset$Group == 1, snp], allele1))
+  allele2_case <- sum(str_count(dataset[dataset$Group == 1, snp], allele2))
+  allele1_control <- sum(str_count(dataset[dataset$Group == 0, snp], allele1))
+  allele2_control <- sum(str_count(dataset[dataset$Group == 0, snp], allele2))
+  
+  print(paste0("Case: ", allele1, "=", allele1_case, "; ", allele2, "=", allele2_case))
+  case_test <- chisq.test(c(allele1_case, allele2_case), p = c(freq_db_allele1, freq_db_allele2))
+  print(case_test)
+  
+  print(paste0("Control: ", allele1, "=", allele1_control, "; ", allele2, "=", allele2_control))
+  control_test <- chisq.test(c(allele1_control, allele2_control), p = c(freq_db_allele1, freq_db_allele2))
+  print(control_test)
+}
+
+rs306_DNABr <- run_DNABr(zkv_data, "rs4848306", "G", "A", 0.6375, 0.3625)
+rs623_DNABr <- run_DNABr(zkv_data, "rs1143623", "C", "G", 0.7224, 0.2776)
+rs944_DNABr <- run_DNABr(zkv_data, "rs16944", "A", "G", 0.4690, 0.5310)
+rs627_DNABr <- run_DNABr(zkv_data, "rs1143627", "A", "G", 0.5075, 0.4925)
+
+
 #___ Linkage Desequilibrium Analysis ___#
 ## Genetic R package
 zkv_gt_snps <- zkv_genotypes %>%
